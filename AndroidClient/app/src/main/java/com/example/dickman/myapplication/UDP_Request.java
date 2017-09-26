@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.net.InterfaceAddress;
 import java.net.MulticastSocket;
 import java.net.Socket; //Socket網路功能
+import java.net.UnknownHostException;
 
 public class UDP_Request {
     private String Host;
@@ -25,6 +26,32 @@ public class UDP_Request {
         socket.setBroadcast(true); //open Broadcast
         socket.setSoTimeout(timeout);
         rceivePacket = new DatagramPacket(receiveBuffer, bufferSize, InetAddress.getByName(Host), RecievePort); //https://developer.android.com/reference/java/net/DatagramPacket.html
+    }
+
+    public void send (final String input) throws UnknownHostException {
+
+        byte data[] = input.getBytes();
+        final DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName(Host), this.SentPort);
+        new Thread(new Runnable(){
+
+            @Override
+            public void run() {
+                try {
+                    socket.send(packet);
+                } catch (IOException e) {
+                    error(e);
+                }
+            }
+        }).start();
+    }
+
+    public void error(IOException e) {
+        // TODO
+    }
+
+    public String receive() throws IOException {
+        socket.receive(rceivePacket);
+        return new String(rceivePacket.getData(), 0, rceivePacket.getLength());
     }
 }
 

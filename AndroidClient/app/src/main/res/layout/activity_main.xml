@@ -5,9 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.dickman.myapplication.MainActivity">
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    //讀取手機wifi使用權限
 
     <TextView
         android:layout_width="wrap_content"
